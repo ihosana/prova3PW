@@ -1,32 +1,24 @@
 import { Grid } from "@mui/material"
 import { Container } from "@mui/system"
 import { useEffect, useState } from "react"
-import Cards from "../../Componentes/Cards/Cards"
-
+import Cards from "../Componentes/Cards/Cards"
+import axios from "axios";
 const Home = () => {
-   let url = "https://pokeapi.co/api/v2/pokemon?limit=10&offset=0"
-    const [data, setData] = useState([])
+   let url = "https://pokeapi.co/api/v2/pokemon?limit=200&offset=0"
 
+    const [data, setData] = useState([])
+    useEffect( () => {
+        getPokemon()
+    }, [])
+    
     const getPokemon= async () => {
         const response = await fetch(url)
         const poke =  await response.json()
 
-        setData(poke.results)
-
-        var cadaUm=[];
-        for(var i=1; i<10;i++){
-          cadaUm.push('https://pokeapi.co/api/v2/pokemon/$(i)/');
-        }
-        
+        setData(poke.results)  
     }
-
-    useEffect( () => {
-        getPokemon()
-    }, [])
-
     return <>
-        <section>
-        
+        <div>
         <Container maxWidth="xg">
         <Grid container>
         {data.map((c,key)=> (
@@ -37,7 +29,7 @@ const Home = () => {
         ) )}
         </Grid>
         </Container>
-        </section>
+        </div>
          
     </>
 }
